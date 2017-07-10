@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import { ValidationError } from 'express-validation';
 import db from './database/';
 import { routes as todosRoutes } from './todos';
 import config from './config';
@@ -19,11 +20,10 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError) {
-    res.statusCode = 400;
-    res.end();
+  if (err instanceof ValidationError) {
+    res.status(err.status).end(err.statusText);
   } else {
-    console.log(err);
+    res.status(400).end();
   }
 });
 

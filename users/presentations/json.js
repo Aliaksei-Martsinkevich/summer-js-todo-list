@@ -1,3 +1,7 @@
 export default (data, req, res, next) => {
-  res.status(200).json(data);
+  if (data instanceof Error) {
+    next(data);
+  } else {
+    res.status(200).json(data);
+  }
 };
