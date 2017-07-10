@@ -1,6 +1,6 @@
 import express from 'express';
 import validate from 'express-validation';
-
+import { json } from '../presentations';
 import { getById, getList, create, update } from '../controllers';
 import {
   getList as getListValidator,
@@ -10,10 +10,6 @@ import {
 } from '../validators';
 
 const router = express.Router();
-
-const json = (data, req, res, next) => {
-  res.json(data);
-};
 
 router.get('/', validate(getListValidator), getList, json);
 

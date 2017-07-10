@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: off */
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
@@ -19,6 +20,14 @@ UserSchema.pre('save', function (next) {
     user.password = hash;
     next();
   }).catch(err => next(err));
+});
+
+UserSchema.pre('findOneAndUpdate', function (next) {
+  if (Object.prototype.hasOwnProperty.call(this._update, 'password')) {
+    this._update.password =
+      bcrypt.hashSync(this._update.password, SALT_WORK_FACTOR);
+  }
+  next();
 });
 
 UserSchema.methods.comparePassword = candidatePassword =>
