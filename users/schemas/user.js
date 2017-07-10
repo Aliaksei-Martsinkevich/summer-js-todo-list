@@ -30,7 +30,8 @@ UserSchema.pre('findOneAndUpdate', function (next) {
   next();
 });
 
-UserSchema.methods.comparePassword = candidatePassword =>
-  bcrypt.compare(candidatePassword, this.password);
+UserSchema.methods.comparePassword = function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
 
 export default UserSchema;
