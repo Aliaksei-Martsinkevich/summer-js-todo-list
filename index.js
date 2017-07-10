@@ -1,8 +1,32 @@
-import http from 'http';
+import express from 'express';
+import bodyParser from 'body-parser';
+import db from './database/';
+import { routes as todosRoutes } from './todos';
+import config from './config';
+import { routes as usersRoutes } from './users';
 
-http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, '127.0.0.1');
+const app = express();
 
-console.log('Server running at http://127.0.0.1:1337/');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use('/api/todos', todosRoutes);
+app.use('/api/users', usersRoutes);
+
+app.use((req, res, next) => {
+  console.log(`${req.protocol} ${req.method} ${req.originalUrl} ${res.statusCode}`);
+  next();
+});
+
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError) {
+    res.statusCode = 400;
+    res.end();
+  } else {
+    console.log(err);
+  }
+});
+
+app.listen(config.server.port, config.server.host, () => {
+  console.log(`Server running at http://${config.server.host}:${config.server.port}/`);
+});
