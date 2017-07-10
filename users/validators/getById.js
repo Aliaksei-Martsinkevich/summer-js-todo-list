@@ -7,4 +7,8 @@ export default {
   params: {
     id: Joi.objectId(),
   },
+
+  options: {
+    allowUnknownParams: false,
+  },
 };

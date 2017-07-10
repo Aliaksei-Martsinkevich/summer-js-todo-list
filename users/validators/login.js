@@ -6,9 +6,7 @@ export default {
     password: Joi.string().min(4).max(32).required(),
   },
 
-  post: {
+  options: {
     allowUnknownBody: false,
-    allowUnknownQuery: false,
-    allowUnknownParams: false,
   },
 };
