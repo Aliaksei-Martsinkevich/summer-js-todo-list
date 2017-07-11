@@ -1,3 +1,7 @@
 import User from '../models';
 
-export default filter => User.find({}).select('name todos').exec();
+export default async (filter, user) => User
+.find({})
+.select('_id name todos')
+.populate('todos', 'name')
+.exec();

@@ -1,3 +1,4 @@
 import User from '../models';
 
-export default credentials => User.create(credentials);
+export default async credentials => User
+.create(credentials);

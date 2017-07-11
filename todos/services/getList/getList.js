@@ -1,3 +1,7 @@
 import Todo from '../../models';
 
-export default (filter, user) => Todo.find({}).select('_id name text isDone').exec();
+export default async (filter, user) => Todo
+.find({ _author: user.id })
+.select('_id name text isDone _author')
+.populate('_author', 'name')
+.exec();
