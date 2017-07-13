@@ -18,6 +18,7 @@ export default async (credentials) => {
   };
 
   return jwt.sign(payload, config.jwt.secret, {
+    algorithm: 'HS512',
     expiresIn: '24h',
   });
 };
